@@ -1,11 +1,11 @@
 pipeline {
-    agent { label 'ec2-slave' }
+    agent any
 
     stages {
 
         stage('Docker Login & Build Image') {
             steps {
-            	withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            	withCredentials([usernamePassword(credentialsId: 'Docker_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh   """
                         docker login -u $USERNAME -p $PASSWORD
                         docker build -t alielhabal70/backhouse:latest .
@@ -14,17 +14,6 @@ pipeline {
                  }
             }
         }
-        
-        
-
-        stage('Deploy') {
-            steps {
-                    sh   """
-                        docker run -d -p 8083:80 alielhabal70/backhouse:latest
-                    """
-                }
-        }
-        
         
     }
 
