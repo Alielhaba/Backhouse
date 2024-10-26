@@ -14,6 +14,14 @@ pipeline {
                  }
             }
         }
+
+        stage('Docker Login & Build Image') {
+            steps {
+                sh   """
+                    docker run -d -p 500:8080 alielhabal70/backhouse:latest
+                """ 
+            }
+        }
         
     }
 
